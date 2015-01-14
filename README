@@ -1,0 +1,12 @@
+
+Add to local virtualenv:
+ * fabric
+ * jinja2
+
+export ONYFAB_CONF_PATH="../config/fab-conf.py"
+
+
+
+
+
+

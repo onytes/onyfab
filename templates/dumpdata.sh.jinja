@@ -1,0 +1,11 @@
+#!/bin/bash
+cd {{code_path}}
+source {{virtualenv_activate}}
+
+now=$(date +"%m_%d_%Y-%H:%M:%S")
+mkdir -p {{backups_dir_path}}
+path="{{backups_dir_path}}wodfy-raw-data-"$now.json
+echo $path
+python manage.py dumpdata --settings=wodfy.settings.local > $path
+tar -zvcf $path.tar.gz $path
+rm $path

@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+  ServerName {{domain}}
+  # Static files are hosted by apache itself.
+  # User-uploaded media: MEDIA_URL = '/media/'
+  Alias /media {{media_path}}
+  # django-staticfiles: STATIC_URL = '/static_media/'
+  Alias /static {{collected_static}}
+
+  RewriteEngine on
+  ProxyPreserveHost On
+  # Don't rewrite /media and /static_media
+  RewriteRule ^/media/.* - [L]
+  RewriteRule ^/static/.* - [L]
+  # Django is run via gunicorn. So proxy the rest.
+  RewriteRule ^(.*) http://localhost:{{gunicorn_port}}$1 [P]
+</VirtualHost>
+<VirtualHost *:443>
+  ServerName {{domain}}
+  # Static files are hosted by apache itself.
+  # User-uploaded media: MEDIA_URL = '/media/'
+  Alias /media {{media_path}}
+  # django-staticfiles: STATIC_URL = '/static_media/'
+  Alias /static {{collected_static}}
+
+  RewriteEngine on
+  ProxyPreserveHost On
+  # Don't rewrite /media and /static_media
+  RewriteRule ^/media/.* - [L]
+  RewriteRule ^/static/.* - [L]
+  # Django is run via gunicorn. So proxy the rest.
+  RewriteRule ^(.*) http://localhost:{{gunicorn_port}}$1 [P]
+</VirtualHost>

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Activate the virtual environment
+source {{virtualenv_activate}}
+cd {{code_path}}
+pwd
+export DJANGO_SETTINGS_MODULE={{django_settings}}
+#python manage.py runserver {{gunicorn_port}}
+
+exec gunicorn {{wsgi_module}}:application\
+     --bind 0.0.0.0:{{gunicorn_port}}\
+      --log-level=debug\
+       --workers 1\
+       --user={{gunicorn_user}} --group={{gunicorn_group}} \
+
+
+
+

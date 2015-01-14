@@ -1,0 +1,116 @@
+import os
+
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+# export ROOT_PASSWORD="xxxx"
+# Export conf file: export ONYFAB_CONF_PATH="../config/fab-conf.py"
+
+
+# GENERAL
+name = 'name'
+domain = 'example.com'
+hosts = {'example': 'example.com:2288', }
+default_host = 'example'
+default_user = 'root'
+project_path = '/var/www/%s-prj' % name
+code_path = os.path.join(project_path, name)
+logs_dir = os.path.join(project_path, 'logs')
+bin_path = os.path.join(project_path, 'bin')
+
+backups_local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, os.pardir, 'backups')
+
+
+
+# GIT
+git_repo = 'git@github.com:onytes/example-project.git'
+git_user_name = 'gituser'
+git_user_email = 'git@onytes.com'
+git_default_branch = "production"
+robot_name = 'robot'
+robot_group = 'webapps'
+
+# USERS DATA
+users = {
+        'root': {
+            'username': root_name,
+            # if is add to dict but not set, it'll be asked
+            'password': os.getenv('ROOT_PASSWORD')
+            },
+        'robot': {
+            'username': robot_name,
+            'group': robot_group,
+            'id_rsa': '~/.ssh/id_rsa_robot',
+            'id_rsa.pub': '~/.ssh/id_rsa_robot.pub'},
+        }
+
+
+
+# DEBIAN PACKAGES
+
+# apache 2 or nginx
+web_server = 'apache2'
+
+packages = ['supervisor',
+            'git-core',
+            'openssl',
+            'build-essential',
+            'python-dev',
+            'python-pip',
+            'python3-dev',
+            'python-virtualenv',
+            'libpq-dev',
+            'zlib1g-dev',
+            'python-setuptools',
+            'python3-dev',
+            'python-virtualenv',
+            'python-pip',
+            'automake',
+            'libtool',
+            'libreadline6', 'libreadline6-dev',
+            'libreadline-dev',
+            'libsqlite3-dev',
+            'libxml2',
+            'libxml2-dev',
+            'libssl-dev',
+            'libbz2-dev',
+            'wget',
+            'curl',
+            'llvm',
+            'gettext',
+            'python-dev',
+            'libtiff5-dev',
+            'libjpeg62-turbo-dev',
+            'libfreetype6-dev',
+            'libwebp-dev',
+            'libapache2-mod-wsgi',
+            ]
+
+packages.append(web_server)
+
+# DJANGO
+django_settings = 'config.settings.production'
+django_settings_path = os.path.join(code_path, name, 'config', 'settings', 'production')
+
+# virtualenv
+virtualenv_requirements_path = os.path.join(code_path, 'requirements', 'production.txt')
+virtaulenv_path = os.path.join(project_path, 'venv')
+virtualenv_activate = os.path.join(virtaulenv_path, 'bin', 'activate')
+virtualenv_python_path = '/usr/bin/python3'
+
+collected_static = os.path.join(project_path, 'collected_static')
+media_path = os.path.join(project_path, 'media')
+
+gunicorn_port = 8000
+gunicorn_start_sh_dir = bin_path
+gunicorn_start_sh_path = os.path.join(gunicorn_start_sh_dir, 'gunicorn_start.sh')
+gunicorn_user = 'robot'
+gunicorn_group = 'webapps'
+
+supervisor_conf = "/etc/supervisor/conf.d/" + name + ".conf"
+supervisor_log = logs_dir + '/supervisor.log'
+
+wsgi_module = 'module.wsgi'
+
+
+def get_globals():
+    return globals()

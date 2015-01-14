@@ -1,0 +1,7 @@
+/conf.py
+*.pyc
+*/*.pyc
+*/*/*.pyc
+*/*/*/*.pyc
+*/*/*/*/*.pyc
+passwords
