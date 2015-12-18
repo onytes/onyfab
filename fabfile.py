@@ -56,7 +56,6 @@ def _update_passwords():
             env.conf.users[key]['password'] = p
 
 
-
 ######################################################
 #
 # Server connection
