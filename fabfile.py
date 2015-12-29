@@ -42,9 +42,7 @@ def _import_conf():
 
 def _init():
     _import_conf()
-    _update_passwords()
     env.hosts = [env.conf.hosts[env.conf.default_host]]
-    user(env.conf.default_user)
     host(env.conf.default_host)
 
 
@@ -69,6 +67,11 @@ def host(host_key):
 
 def user(user_key):
     env.user = env.conf.users[user_key]['username']
+
+    #check if user is required
+    if 'password' in env.conf.users[user_key] and env.conf.users[user_key].get('password') is None:
+        p = getpass.getpass(prompt='{} password: '.format(env.user))
+        env.conf.users[user_key]['password'] = p
     try:
         env.password = env.conf.users[user_key]['password']
     except:
@@ -218,6 +221,8 @@ def init_git():
 
 def update_code(branch=None):
     fab_log('update_code')
+    if not env.user:
+        robot()
     if not branch:
         if hasattr(env.conf, 'git_default_branch'):
             branch = env.conf.git_default_branch
