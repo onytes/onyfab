@@ -161,7 +161,7 @@ def create_robot_user():
         run('groupadd --system %(group)s' % env.conf.users['robot'])
         password = env.conf.users['robot'].get('password')
         if password:
-            cmd = "useradd  -g %(group)s -d /home/%(username)s -m -s /bin/bash -p $(echo %(password)s | " \
+            cmd = 'useradd  -g %(group)s -d /home/%(username)s -m -s /bin/bash -p $(echo "%(password)s" | ' \
                   "openssl passwd -1 -stdin) %(username)s" % env.conf.users['robot']
         else:
             cmd = "useradd  -g %(group)s -d /home/%(username)s -m -s /bin/bash %(username)s" % env.conf.users['robot']
